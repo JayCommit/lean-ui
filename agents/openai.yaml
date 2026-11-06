@@ -1,0 +1,4 @@
+interface:
+  display_name: "lean-ui"
+  short_description: "Lean frontend interaction and accessibility quality"
+  default_prompt: "Use $lean-ui to implement this frontend interaction with accessible controls, complete states, and focused verification."

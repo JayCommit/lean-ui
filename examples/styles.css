@@ -1,0 +1,20 @@
+:root { font-family: system-ui, sans-serif; color: #172033; background: #f6f7fa; line-height: 1.5; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { max-width: 70rem; margin-inline: auto; padding: clamp(1rem, 4vw, 3rem); }
+.comparison { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: 1.5rem; }
+section { min-width: 0; background: white; border: 1px solid #778297; padding: 1.25rem; border-radius: .5rem; overflow-wrap: anywhere; }
+label { display: block; margin-bottom: .5rem; }
+.search-controls { display: flex; flex-wrap: wrap; gap: .5rem; }
+input, button, .fake-button { font: inherit; padding: .65rem .85rem; min-height: 2.75rem; border: 1px solid #57647a; border-radius: .25rem; }
+input { min-width: 0; max-width: 100%; flex: 1 1 12rem; }
+button, .fake-button { color: white; background: #2546a8; cursor: pointer; }
+button:disabled { color: #445066; background: #e4e7ef; cursor: default; }
+.fake-button { display: inline-block; margin-top: .5rem; }
+:focus-visible { outline: 3px solid #9b3500; outline-offset: 3px; }
+.status { min-height: 3em; }
+[role="alert"] { border-inline-start: 4px solid #a12424; padding-inline-start: .75rem; }
+/* Optional feedback only: text conveys progress even with animation removed. */
+[aria-busy="true"] { min-height: .25rem; background: #d8e0f7; animation: pending 1s ease-in-out infinite alternate; }
+@keyframes pending { to { opacity: .45; } }
+@media (prefers-reduced-motion: reduce) { [aria-busy="true"] { animation: none; } }
