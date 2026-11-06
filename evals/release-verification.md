@@ -124,3 +124,38 @@ Ctrl and Equal did not change `devicePixelRatio` or `visualViewport.scale` (both
 ### Not observed yet at authoring time
 
 A fresh public clone, copying the folder into a project's `.agents/skills/lean-ui`, Codex `$lean-ui` discovery, and the GitHub Actions **Check lean-ui** run were not completed when this section was written. Do not read this section as hosted CI being green.
+
+## v0.0.2 installers — 2026-11-06
+
+This section records the v0.0.2 installer and install-doc change. It does not replace the 6 November 2026 Windows/Codex/Chromium record or the public-launch Linux/Chromium section above. It does not claim a macOS or Windows execution. Example sources, `SKILL.md`, `agents/openai.yaml`, and `examples/package.json` were not edited. The example manifest stays a private `0.1.0` fixture. The GitHub release tag for this change is `v0.0.2`.
+
+### What changed
+
+v0.0.1's install section showed a PowerShell copy first and only the Codex path `~/.agents/skills/lean-ui`. Copying a skill directory into a destination that already exists nests `lean-ui/lean-ui` (observed here with GNU `cp -R` on Linux: the source directory became a child of the existing destination). The new installers refuse an existing destination and copy this folder so `SKILL.md` is a direct child of the destination.
+
+`scripts/install.sh` and `scripts/install.ps1` take `--host` (`grok`, `grok-bot`, `cursor`, `openai`, `antigravity`, `claude`, or `all`; default `all`) and `--scope` (`user` or `project`; default `user`). README install instructions now list Grok, Grok Bot, Cursor, OpenAI/ChatGPT, Antigravity, and Claude, with macOS `cp -R` / `$HOME` before Windows `Copy-Item` / `$env:USERPROFILE`. No new component, design system, dependency, or agent-output pilot was added. `examples/TypicalSearch.tsx` was left intentionally flawed. External documentation links checked from this session returned HTTP 200; none were rewritten.
+
+### Environment
+
+- Date: 2026-11-06
+- OS: Linux x86_64, kernel 6.12.8+. Not macOS and not Windows.
+- Shell: GNU bash 5.2.15. `bash -n scripts/install.sh` exited 0. That is a syntax check only; it does not execute the script.
+- `scripts/install.ps1` was not started. `pwsh` and `powershell` were not installed. No Windows host ran `Copy-Item`.
+- Node.js v22.23.3 and npm 10.9.9. Node 24 was not installed here. The workflow file still targets Node 24.
+- No Grok, Grok Bot, Cursor, Codex, ChatGPT, Antigravity, or Claude process was launched. No screen reader, browser zoom, touch input, or fresh agent task was run for this section.
+
+### Commands and results
+
+From the repository root:
+
+- `node scripts/check.mjs` passed. Output included `SKILL.md: 443 whitespace-delimited words; 3145 UTF-8 bytes (not token counts).` and `scripts/install.sh: bash -n passed (syntax only; not a macOS or Windows execution).` Local Markdown links stayed inside the package. This is not a full YAML schema, external-link, or Markdown-anchor validator. The checker does confirm `agents/openai.yaml` still has the `interface` fields `display_name`, `short_description`, and `default_prompt`.
+- `git diff --check` produced no whitespace errors.
+- `bash scripts/install.sh --host all --scope user` was executed with `HOME` pointed at an empty temporary directory, not the real home directory. It printed six `installed` lines: `.grok/skills/lean-ui`, `.cursor/skills/lean-ui`, `.agents/skills/lean-ui`, `.gemini/config/skills/lean-ui`, `.gemini/antigravity-cli/skills/lean-ui`, and `.claude/skills/lean-ui`. Each destination had `SKILL.md` as a direct child. None had `lean-ui/SKILL.md`, `.git`, `examples/node_modules`, `examples/dist`, `.verification`, or `evals/runs`. References, `agents/openai.yaml`, `scripts/install.sh`, and `examples/TypicalSearch.tsx` were present. Exit 0.
+- A second `--host grok --scope user` against that same temporary `HOME` exited 1 with `lean-ui already exists ... review it first`. The existing tree still had a single `SKILL.md` and no nested copy.
+- `--host all --scope project`, run with the working directory set to a separate empty temporary project, installed four folders: `.grok/skills/lean-ui`, `.cursor/skills/lean-ui`, `.agents/skills/lean-ui`, and `.claude/skills/lean-ui`. It did not add a second Antigravity directory and did not write the Grok Bot user path. Exit 0.
+- `--host grok-bot --scope project` exited 1 and did not copy files. `--host nope` exited 1. `--help` exited 0.
+- `--host cursor --scope user` with another temporary `HOME` installed only `.cursor/skills/lean-ui/SKILL.md`.
+- The source checkout's `.git` directory was still present after these copies.
+- Example sources were unchanged. `cd examples && npm ci` added 102 packages from the existing lockfile. `npm test` (`vitest run --environment jsdom`) passed: 1 file, 7 tests. These are jsdom tests, not a browser or assistive-technology result. `npm run build` (`tsc --noEmit && vite build`) passed. Vite 8.3.6 emitted `dist/index.html`, one CSS asset, and one JS asset. `examples/node_modules/` and `examples/dist/` stayed untracked.
+
+The **Check lean-ui** workflow for this v0.0.2 commit was not yet observed when this section was written. Do not read this section as hosted CI being green. macOS `cp` and Windows PowerShell were not executed. A Linux GNU `cp -R` functional run does not certify BSD `cp` on macOS or `Copy-Item` on Windows.

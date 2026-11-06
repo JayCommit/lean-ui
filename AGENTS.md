@@ -9,7 +9,8 @@ lean-ui is a small Agent Skill for frontend interaction quality: async states, a
 - `agents/openai.yaml`: Codex discovery/UI metadata.
 - `examples/`: self-contained React/Vite comparison, fixture, tests, manifest, and lockfile. The typical version is deliberately flawed.
 - `evals/`: evaluation protocol, results template, and dated release evidence.
-- `scripts/check.mjs`: dependency-free packaging/link/budget check.
+- `scripts/check.mjs`: dependency-free packaging/link/budget check. It also runs `bash -n scripts/install.sh` (syntax only).
+- `scripts/install.sh` and `scripts/install.ps1`: copy this folder into host skill directories. `SKILL.md` must land directly inside the destination, never `lean-ui/lean-ui`.
 - `.github/workflows/check.yml`: standalone-repository CI using Node 24.
 - `.verification/` and `evals/runs/`: ignored local evidence, never release inputs.
 
@@ -19,6 +20,7 @@ Work from the folder containing this file. The skill requires no runtime depende
 
 ```sh
 node scripts/check.mjs
+bash -n scripts/install.sh
 cd examples
 npm ci
 npm test
@@ -26,7 +28,7 @@ npm run build
 npm run dev
 ```
 
-`npm test` runs Vitest/jsdom. `npm run build` runs TypeScript checking and Vite production compilation. There is no configured lint command. Run `git diff --check` for whitespace. Installation and explicit `$lean-ui` invocation are documented in `README.md`.
+`npm test` runs Vitest/jsdom. `npm run build` runs TypeScript checking and Vite production compilation. There is no configured lint command. Run `git diff --check` for whitespace. `bash -n scripts/install.sh` checks shell syntax only; it does not install the skill and it is not a macOS or Windows execution. Host paths and invocation (`/lean-ui`, Codex `$lean-ui`) are documented in `README.md`.
 
 ## Constraints
 
